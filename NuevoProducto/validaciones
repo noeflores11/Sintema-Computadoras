@@ -1,0 +1,42 @@
+// Función para validar el formulario
+function validarFormulario(event) {
+    // Obtener los valores de los campos
+    const nombreProducto = document.getElementById('producto_nombre').value;
+    const descripcion = document.getElementById('descripcion').value;
+    const precio = document.getElementById('precio').value;
+    const imagen = document.getElementById('imagen').files.length;
+
+    // Validación para el nombre del producto
+    if (nombreProducto.trim() === "") {
+        alert("Por favor, ingresa el nombre del producto.");
+        event.preventDefault();  // Detener el envío del formulario
+        return false;
+    }
+
+    // Validación para la descripción
+    if (descripcion.trim() === "") {
+        alert("Por favor, ingresa una descripción.");
+        event.preventDefault();
+        return false;
+    }
+
+    // Validación para el precio
+    if (precio <= 0 || isNaN(precio)) {
+        alert("Por favor, ingresa un precio válido.");
+        event.preventDefault();
+        return false;
+    }
+
+    // Validación para la imagen
+    if (imagen === 0) {
+        alert("Por favor, selecciona una imagen.");
+        event.preventDefault();
+        return false;
+    }
+
+    // Si todas las validaciones pasan
+    return true;
+}
+
+// Añadir el evento de validación al formulario
+document.getElementById('formProducto').addEventListener('submit', validarFormulario);
