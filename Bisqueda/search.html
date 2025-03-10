@@ -1,1 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de búsqueda</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Tech Store</div>
+        <form id="searchForm">
+            <input type="text" placeholder="Buscar..." class="search-bar" id="searchInput">
+        </form>
+        <a href="../Login/index.html">
+            <button class="buy-btn">Iniciar Sesión</button>
+        </a>
+    </header>
+    <main>
+        <section class="products">
+            <div class="product">
+                <img src="https://preview.redd.it/w15gst9l6l171.jpg?width=1080&crop=smart&auto=webp&s=f2dca05d969e68d25bc7df709af499308cfdc7f6" alt="Custom PC">
+                <h3>Custom PC</h3>
+                <p>$13000 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Contacto: Jonathan Fraire | Email: jonathanfraire@gmail.com</p>
+    </footer>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            if (searchQuery.includes('custom pc')) {
+                window.location.href = '../Busqueda/search.html';
+            }
+        });
+    </script>
+</body>
+</html>
 
