@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo de Pago</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .receipt-container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+        }
+        .receipt-container h2 {
+            color: cyan;
+        }
+        .receipt-container p {
+            margin: 5px 0;
+        }
+        .receipt-container .total {
+            font-size: 20px;
+            color: orange;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h2>Recibo de Pago</h2>
+        <p>Producto: Computadora Gamer X</p>
+        <p>Cantidad: 1</p>
+        <p>Precio: $1200 USD</p>
+        <p>Método de Pago: Tarjeta de Crédito</p>
+        <p class="total">Total Pagado: $13000USD</p>
+    </div>
+</body>
+</html>
