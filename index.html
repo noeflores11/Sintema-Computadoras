@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Store</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">Tech Store</div>
+        <form id="searchForm">
+            <input type="text" placeholder="Buscar..." class="search-bar" id="searchInput">
+        </form>
+        <a href="../Login/index.html">
+            <button class="buy-btn">Iniciar Sesión</button>
+        </a>
+    </header>
+    <main>
+        <section class="products">
+            <!-- Productos existentes -->
+            <div class="product">
+                <img src="https://www.apple.com/v/macbook-pro/an/images/overview/contrast/product_tile_mbp_14_16__f759zoojn1qy_large.png" alt="PC 1">
+                <h3>MacBook Pro de 14” y 16”</h3>
+                <p>$1200 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://assets.spartangeek.com/cc/_pcDetailLarge/CSG700-WH-1.webp" alt="PC 2">
+                <h3>Delios 70i</h3>
+                <p>$1500 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://www.asus.com/media/Odin/Websites/global/ProductLine/20200824031949/P_setting_xxx_0_90_end_185.png?webp" alt="PC 3">
+                <h3>ROG</h3>
+                <p>$1500 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://m.media-amazon.com/images/I/51cikPerv1S.__AC_SX300_SY300_QL70_ML2_.jpg" alt="PC 4">
+                <h3>Mini PC Office</h3>
+                <p>$700 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://isopixel.net/wp-content/uploads/2023/05/Aurora-R15-Alienware-Featured-1024x576.webp" alt="PC 5">
+                <h3>Aurora R15</h3>
+                <p>$12000 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://preview.redd.it/w15gst9l6l171.jpg?width=1080&crop=smart&auto=webp&s=f2dca05d969e68d25bc7df709af499308cfdc7f6" alt="PC 6">
+                <h3>Custom PC</h3>
+                <p>$13000 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="https://www.datocms-assets.com/34299/1706682491-player-one-base-ww-10-05-23-hero-white-badge.png?ixlib=js-3.8.0&w=500&h=500&dpr=1&q=75" alt="PC 7">
+                <h3>NZXT</h3>
+                <p>$2000 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+            <div class="product">
+                <img src="http://blogs.windows.com/wp-content/uploads/sites/2/2012/07/1588.epidemic_2D00_outside_2D00_top_2D00_1_2D00_550_5F00_thumb_5F00_07CD163A.jpg" alt="PC 8">
+                <h3>Nuclear PC</h3>
+                <p>$4500 USD</p>
+                <a href="../Producto/index.html">
+                    <button class="buy-btn">Comprar</button>
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>Contacto: Jonathan Fraire | Email: jonathanfraire@gmail.com</p>
+    </footer>
+    <script>
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const searchQuery = document.getElementById('searchInput').value.toLowerCase();
+            if (searchQuery.includes('custom pc')) {
+                window.location.href = '../Busqueda/search.html';
+            }
+        });
+    </script>
+</body>
+</html>
