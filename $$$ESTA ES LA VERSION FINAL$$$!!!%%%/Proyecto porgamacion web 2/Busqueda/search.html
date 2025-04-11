@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados de búsqueda</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .search-results-container {
+            padding: 20px;
+        }
+        .search-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .search-box {
+            display: flex;
+            width: 60%;
+        }
+        .search-box input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+        }
+        .search-box button {
+            padding: 10px 15px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        .results-info {
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+        .no-results {
+            text-align: center;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Tech Store</div>
+        <div class="search-box">
+            <input type="text" id="search-input" placeholder="Buscar productos...">
+            <button onclick="performSearch()">Buscar</button>
+        </div>
+        <a href="../Login/index.html">
+            <button class="buy-btn">Iniciar Sesión</button>
+        </a>
+    </header>
+
+    <main class="search-results-container">
+        <h1>Resultados de Búsqueda</h1>
+        <div id="results-info" class="results-info"></div>
+        
+        <div class="products" id="search-results">
+            <!-- Los resultados aparecerán aquí -->
+        </div>
+    </main>
+
+    <footer>
+        <p>Contacto: Jonathan Fraire | Email: jonathanfraire@gmail.com</p>
+    </footer>
+
+    <script>
+        // Obtener el término de búsqueda de la URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const searchTerm = urlParams.get('q') || '';
+        
+        // Mostrar resultados al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('search-input').value = searchTerm;
+            showSearchResults(searchTerm);
+        });
+
+        // Función para realizar búsqueda
+        function performSearch() {
+            const term = document.getElementById('search-input').value.trim();
+            if (term) {
+                window.location.href = `search.html?q=${encodeURIComponent(term)}`;
+            }
+        }
+
+        // Función para mostrar resultados
+        function showSearchResults(term) {
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const resultsContainer = document.getElementById('search-results');
+            const infoContainer = document.getElementById('results-info');
+            
+            // Filtrar productos
+            const resultados = productos.filter(producto => 
+                producto.nombre.toLowerCase().includes(term.toLowerCase()) || 
+                producto.descripcion.toLowerCase().includes(term.toLowerCase())
+            );
+
+            // Mostrar información de resultados
+            infoContainer.textContent = `${resultados.length} resultados para "${term}"`;
+
+            // Mostrar productos o mensaje de no resultados
+            if (resultados.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="no-results">
+                        <h3>No se encontraron resultados</h3>
+                        <p>Intenta con diferentes palabras clave</p>
+                        <a href="../index.html"><button class="buy-btn">Volver a la tienda</button></a>
+                    </div>
+                `;
+            } else {
+                resultsContainer.innerHTML = resultados.map(producto => `
+                    <div class="product">
+                        <img src="${producto.imagen}" alt="${producto.nombre}">
+                        <h3>${producto.nombre}</h3>
+                        <p>$${producto.precio} USD</p>
+                        <a href="../Producto/index.html?id=${producto.id}">
+                            <button class="buy-btn">Ver detalles</button>
+                        </a>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Buscar al presionar Enter
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                performSearch();
+            }
+        });
+    </script>
+</body>
+</html>

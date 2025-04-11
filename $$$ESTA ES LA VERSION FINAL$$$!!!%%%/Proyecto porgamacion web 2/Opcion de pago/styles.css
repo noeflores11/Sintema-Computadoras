@@ -1,0 +1,21 @@
+.buy-btn {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.buy-btn:hover {
+    background-color: darkred; 
+    transform: scale(1.1); 
+}
+.buy-btn:hover {
+    background-color: darkred; 
+    transform: scale(1.5); /* Aumenta el tamaño del botón más */
+}
+button{
+    padding: 10px 20px;
+    background-color: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}

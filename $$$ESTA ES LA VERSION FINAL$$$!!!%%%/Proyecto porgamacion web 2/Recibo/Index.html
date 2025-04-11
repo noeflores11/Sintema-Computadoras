@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recibo de Compra</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .receipt-container {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .receipt-title {
+            color: cyan;
+            text-align: center;
+            border-bottom: 1px solid #444;
+            padding-bottom: 10px;
+        }
+        .receipt-info {
+            margin: 20px 0;
+        }
+        .receipt-info p {
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .receipt-info p span:last-child {
+            font-weight: bold;
+        }
+        .total {
+            color: orange;
+            font-size: 24px;
+            border-top: 1px solid #444;
+            padding-top: 10px;
+            margin-top: 20px;
+        }
+        .btn-print {
+            background-color: #0066cc;
+            margin-top: 20px;
+        }
+        .btn-print:hover {
+            background-color: #0055aa;
+        }
+    </style>
+</head>
+<body>
+    <div class="receipt-container">
+        <h2 class="receipt-title">Recibo de Compra</h2>
+        
+        <div class="receipt-info" id="receipt-details">
+            <!-- Detalles se cargarán aquí -->
+        </div>
+        
+        <button class="buy-btn btn-print" onclick="window.print()">Imprimir Recibo</button>
+        <a href="../index.html"><button class="buy-btn">Volver a la tienda</button></a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const producto = JSON.parse(localStorage.getItem('productoSeleccionado'));
+            const metodoPago = localStorage.getItem('metodoPago');
+            
+            if (producto && metodoPago) {
+                const fecha = new Date().toLocaleDateString();
+                const hora = new Date().toLocaleTimeString();
+                
+                document.getElementById('receipt-details').innerHTML = `
+                    <p><span>Producto:</span> <span>${producto.nombre}</span></p>
+                    <p><span>Descripción:</span> <span>${producto.descripcion}</span></p>
+                    <p><span>Precio unitario:</span> <span>$${producto.precio} USD</span></p>
+                    <p><span>Cantidad:</span> <span>1</span></p>
+                    <p><span>Método de pago:</span> <span>${metodoPago}</span></p>
+                    <p><span>Fecha:</span> <span>${fecha}</span></p>
+                    <p><span>Hora:</span> <span>${hora}</span></p>
+                    <p class="total"><span>Total:</span> <span>$${producto.precio} USD</span></p>
+                `;
+                
+                // Limpiar datos temporales
+                localStorage.removeItem('productoSeleccionado');
+                localStorage.removeItem('metodoPago');
+            } else {
+                window.location.href = '../index.html';
+            }
+        });
+    </script>
+</body>
+</html>

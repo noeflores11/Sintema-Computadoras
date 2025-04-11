@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        .btn-add {
+            background-color: #4CAF50;
+        }
+        .btn-back {
+            background-color: #333;
+        }
+        .product-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .btn-edit {
+            background-color: #2196F3;
+        }
+        .btn-delete {
+            background-color: #f44336;
+        }
+        .admin-badge {
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+        .product-card {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Tech Store - Admin</div>
+        <div id="user-actions">
+            <a href="../Logout/logout.html" class="btn btn-back">Cerrar sesión</a>
+        </div>
+    </header>
+
+    <main class="admin-container">
+        <div class="admin-header">
+            <h1>Panel de Administración</h1>
+            <div class="admin-actions">
+                <a href="../NuevoProducto/index.html" class="btn btn-add">➕ Agregar Producto</a>
+                <a href="../index.html" class="btn btn-back">← Volver a la tienda</a>
+            </div>
+        </div>
+        
+        <div class="products" id="products-list">
+            <!-- Productos con opciones de admin -->
+        </div>
+    </main>
+
+    <footer>
+        <p>Contacto: Jonathan Fraire | Email: jonathanfraire@gmail.com</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuario = JSON.parse(sessionStorage.getItem('usuarioActual'));
+            if (!usuario || usuario.rol !== 'administrador') {
+                window.location.href = '../Login/index.html';
+                return;
+            }
+            
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const container = document.getElementById('products-list');
+            
+            if (productos.length === 0) {
+                container.innerHTML = '<p>No hay productos registrados.</p>';
+                return;
+            }
+            
+            container.innerHTML = productos.map(producto => `
+                <div class="product product-card">
+                    <span class="admin-badge">ID: ${producto.id}</span>
+                    <img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/300'">
+                    <h3>${producto.nombre}</h3>
+                    <p>$${producto.precio} USD</p>
+                    <p>Stock: ${producto.stock}</p>
+                    <div class="product-actions">
+                        <a href="../EditarProducto/index.html?id=${producto.id}" class="btn btn-edit">✏️ Editar</a>
+                        <button onclick="deleteProduct(${producto.id})" class="btn btn-delete">🗑️ Eliminar</button>
+                    </div>
+                </div>
+            `).join('');
+        });
+
+        function deleteProduct(id) {
+            if (confirm('¿Estás seguro de eliminar este producto?')) {
+                let productos = JSON.parse(localStorage.getItem('productos')) || [];
+                productos = productos.filter(p => p.id !== id);
+                localStorage.setItem('productos', JSON.stringify(productos));
+                alert('Producto eliminado correctamente');
+                window.location.reload();
+            }
+        }
+    </script>
+</body>
+</html>

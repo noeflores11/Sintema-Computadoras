@@ -1,0 +1,35 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.product-container {
+    background-color: #222;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px;
+}
+.product-container img {
+    width: 100%;
+    border-radius: 10px;
+}
+.product-container h2 {
+    color: cyan;
+}
+.product-container p {
+    color: orange;
+}
+.buy-btn {
+    padding: 10px 20px;
+    background-color: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+}

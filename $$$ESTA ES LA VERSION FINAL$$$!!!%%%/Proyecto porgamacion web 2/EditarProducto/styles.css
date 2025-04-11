@@ -1,0 +1,122 @@
+body {
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+h2 {
+    color: cyan;
+}
+
+form {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.2);
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: orange;
+}
+
+input, textarea {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #333;
+    color: white;
+}
+
+button {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: darkred;
+    transform: scale(1.1);
+}
+/* Agrega estos estilos al final de tu archivo styles.css */
+
+/* Estilos para el panel de administración */
+.admin-badge {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.product-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.product-actions button {
+    flex: 1;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.product-actions button:hover {
+    transform: scale(1.05);
+}
+
+.product-actions .btn-edit {
+    background-color: #2196F3;
+    color: white;
+}
+
+.product-actions .btn-delete {
+    background-color: #f44336;
+    color: white;
+}
+
+/* Estilos para formularios de administración */
+.form-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.btn-save {
+    background-color: #4CAF50 !important;
+}
+
+.btn-cancel {
+    background-color: #f44336 !important;
+}
+
+.btn-add {
+    background-color: #4CAF50 !important;
+}
+
+.btn-back {
+    background-color: #333 !important;
+}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .edit-container {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+        .edit-container h2 {
+            color: cyan;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: orange;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+        }
+        .input-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+        }
+        .btn-save {
+            background-color: #4CAF50;
+        }
+        .btn-cancel {
+            background-color: #f44336;
+        }
+        .error-message {
+            color: #ff4444;
+            font-size: 0.8em;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="edit-container">
+        <h2>Editar Producto</h2>
+        <form id="editForm">
+            <input type="hidden" id="product-id">
+            
+            <div class="input-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" required>
+                <div id="error-nombre" class="error-message"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" required></textarea>
+                <div id="error-descripcion" class="error-message"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="precio">Precio (USD):</label>
+                <input type="number" id="precio" step="0.01" required>
+                <div id="error-precio" class="error-message"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="stock">Stock:</label>
+                <input type="number" id="stock" required>
+                <div id="error-stock" class="error-message"></div>
+            </div>
+            
+            <div class="input-group">
+                <label for="imagen">URL de Imagen:</label>
+                <input type="url" id="imagen">
+                <div id="error-imagen" class="error-message"></div>
+            </div>
+            
+            <div class="form-actions">
+                <button type="button" class="btn btn-cancel" onclick="window.location.href='../Admin/index.html'">Cancelar</button>
+                <button type="button" class="btn btn-save" onclick="saveProduct()">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuario = JSON.parse(sessionStorage.getItem('usuarioActual'));
+            if (!usuario || usuario.rol !== 'administrador') {
+                window.location.href = '../Login/index.html';
+                return;
+            }
+            
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('id'));
+            
+            if (!productId) {
+                window.location.href = '../Admin/index.html';
+                return;
+            }
+            
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const producto = productos.find(p => p.id === productId);
+            
+            if (!producto) {
+                window.location.href = '../Admin/index.html';
+                return;
+            }
+            
+            // Llenar formulario
+            document.getElementById('product-id').value = producto.id;
+            document.getElementById('nombre').value = producto.nombre;
+            document.getElementById('descripcion').value = producto.descripcion;
+            document.getElementById('precio').value = producto.precio;
+            document.getElementById('stock').value = producto.stock;
+            document.getElementById('imagen').value = producto.imagen || '';
+        });
+
+        function saveProduct() {
+            const id = parseInt(document.getElementById('product-id').value);
+            const nombre = document.getElementById('nombre').value.trim();
+            const descripcion = document.getElementById('descripcion').value.trim();
+            const precio = parseFloat(document.getElementById('precio').value);
+            const stock = parseInt(document.getElementById('stock').value);
+            const imagen = document.getElementById('imagen').value.trim();
+            
+            // Limpiar errores
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+            });
+            
+            // Validaciones
+            let isValid = true;
+            
+            if (!nombre) {
+                document.getElementById('error-nombre').textContent = 'Nombre requerido';
+                document.getElementById('error-nombre').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!descripcion) {
+                document.getElementById('error-descripcion').textContent = 'Descripción requerida';
+                document.getElementById('error-descripcion').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isNaN(precio) || precio <= 0) {
+                document.getElementById('error-precio').textContent = 'Precio inválido';
+                document.getElementById('error-precio').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (isNaN(stock) || stock < 0) {
+                document.getElementById('error-stock').textContent = 'Stock inválido';
+                document.getElementById('error-stock').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (imagen && !/^https?:\/\/.+\.(jpg|jpeg|png|gif|webp)$/i.test(imagen)) {
+                document.getElementById('error-imagen').textContent = 'URL de imagen no válida';
+                document.getElementById('error-imagen').style.display = 'block';
+                isValid = false;
+            }
+            
+            if (!isValid) return;
+            
+            // Actualizar producto
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const index = productos.findIndex(p => p.id === id);
+            
+            if (index !== -1) {
+                productos[index] = {
+                    id,
+                    nombre,
+                    descripcion,
+                    precio,
+                    stock,
+                    imagen: imagen || productos[index].imagen || 'https://via.placeholder.com/300'
+                };
+                
+                localStorage.setItem('productos', JSON.stringify(productos));
+                alert('Producto actualizado correctamente');
+                window.location.href = '../Admin/index.html';
+            }
+        }
+    </script>
+</body>
+</html>

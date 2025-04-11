@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cerrando sesión...</title>
+    <script>
+        sessionStorage.removeItem('usuarioActual');
+        localStorage.removeItem('carrito'); // Opcional: limpiar carrito
+        window.location.href = '../index.html';
+    </script>
+</head>
+<body>
+    Cerrando sesión, por favor espera...
+</body>
+</html>

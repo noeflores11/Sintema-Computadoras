@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro de Usuario</title>
+  <style>
+    body {
+      background-color: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .register-container {
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #222;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: red;
+    }
+
+    label {
+      margin-top: 10px;
+      font-weight: bold;
+      color: orange;
+      width: 100%;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    input {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .error-message {
+      color: #e63946;
+      font-size: 0.85em;
+      margin-top: -8px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    .success-message {
+      color: #4CAF50;
+      text-align: center;
+      margin-top: 15px;
+      display: none;
+    }
+
+    .register-btn {
+      padding: 10px 20px;
+      background-color: red;
+      border: none;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      width: 100%;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .register-btn:hover {
+      background-color: darkred;
+      transform: scale(1.05);
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .login-link a {
+      color: cyan;
+      text-decoration: none;
+    }
+
+    .login-link a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <h2>Registro de Usuario</h2>
+    <form id="registerForm" onsubmit="return false;">
+      <div class="input-group">
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" />
+        <div id="error-username" class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" />
+        <div id="error-email" class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" />
+        <div id="error-password" class="error-message"></div>
+      </div>
+      <div class="input-group">
+        <label for="confirm-password">Confirmar Contraseña:</label>
+        <input type="password" id="confirm-password" />
+        <div id="error-confirm" class="error-message"></div>
+      </div>
+      <button type="button" class="register-btn" onclick="register()">Registrarse</button>
+      <div id="success-message" class="success-message"></div>
+      <div class="login-link">
+        ¿Ya tienes cuenta? <a href="../Login/index.html">Inicia sesión aquí</a>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function register() {
+      const username = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+
+      // Limpiar mensajes anteriores
+      document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+      document.getElementById('success-message').style.display = 'none';
+
+      let isValid = true;
+
+      if (username.length < 4) {
+        document.getElementById('error-username').textContent = 'El usuario debe tener al menos 4 caracteres';
+        document.getElementById('error-username').style.display = 'block';
+        isValid = false;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('error-email').textContent = 'Ingresa un email válido';
+        document.getElementById('error-email').style.display = 'block';
+        isValid = false;
+      }
+
+      if (password.length < 6) {
+        document.getElementById('error-password').textContent = 'La contraseña debe tener al menos 6 caracteres';
+        document.getElementById('error-password').style.display = 'block';
+        isValid = false;
+      }
+
+      if (password !== confirmPassword) {
+        document.getElementById('error-confirm').textContent = 'Las contraseñas no coinciden';
+        document.getElementById('error-confirm').style.display = 'block';
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Verificar si el usuario ya existe
+      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      const usuarioExistente = usuarios.find(user => user.username === username);
+
+      if (usuarioExistente) {
+        document.getElementById('error-username').textContent = 'Este usuario ya existe';
+        document.getElementById('error-username').style.display = 'block';
+        return;
+      }
+
+      // Guardar usuario
+      const nuevoUsuario = {
+        username,
+        email,
+        password,
+        rol: 'usuario'
+      };
+
+      usuarios.push(nuevoUsuario);
+      localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+      document.getElementById('success-message').textContent = '¡Registro exitoso! Redirigiendo...';
+      document.getElementById('success-message').style.display = 'block';
+
+      setTimeout(() => {
+        window.location.href = '../Login/index.html';
+      }, 1500);
+    }
+
+    // Permitir registro con Enter
+    document.getElementById('confirm-password').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        register();
+      }
+    });
+  </script>
+</body>
+</html>

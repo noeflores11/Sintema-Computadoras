@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Store</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .admin-btn {
+            background-color: #4CAF50;
+            margin-left: 10px;
+        }
+        .admin-btn:hover {
+            background-color: #45a049;
+        }
+        .user-greeting {
+            color: cyan;
+            margin-right: 15px;
+            font-weight: bold;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: #222;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 24px;
+            color: red;
+        }
+        .search-box {
+            display: flex;
+            margin: 0 15px;
+            flex-grow: 1;
+            max-width: 600px;
+        }
+        .search-box input {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px 0 0 5px;
+            background-color: #333;
+            color: white;
+            flex-grow: 1;
+        }
+        .search-box button {
+            padding: 10px 15px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        #user-actions {
+            display: flex;
+            align-items: center;
+        }
+        .buy-btn {
+            padding: 10px 20px;
+            background-color: red;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .product {
+            background-color: #333;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .product img {
+            width: 100%;
+            border-radius: 10px;
+        }
+        .product h3 {
+            color: cyan;
+        }
+        .product p {
+            color: orange;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+        }
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+            }
+            .search-box {
+                width: 100%;
+                margin: 10px 0;
+            }
+            #user-actions {
+                width: 100%;
+                justify-content: center;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">Tech Store</div>
+        <form id="searchForm" action="Bigqueda/search.html" method="get" class="search-box">
+            <input type="text" placeholder="Buscar..." class="search-bar" id="searchInput" name="q">
+            <button type="submit">Buscar</button>
+        </form>
+        <div id="user-actions">
+            <!-- Dinámico según sesión -->
+        </div>
+    </header>
+    <main>
+        <section class="products" id="products-container">
+            <!-- Productos dinámicos -->
+        </section>
+    </main>
+    <footer>
+        <p>Contacto: Jonathan Fraire | Email: jonathanfraire@gmail.com</p>
+    </footer>
+
+    <script>
+        // Verificar sesión y cargar productos
+        document.addEventListener('DOMContentLoaded', function() {
+            const usuario = JSON.parse(sessionStorage.getItem('usuarioActual'));
+            const userActions = document.getElementById('user-actions');
+            
+            if (usuario) {
+                // Usuario logueado
+                userActions.innerHTML = `
+                    <span class="user-greeting">${usuario.username}</span>
+                    ${usuario.rol === 'administrador' ? 
+                    '<a href="Admin/index.html"><button class="buy-btn admin-btn">Admin</button></a>' : ''}
+                    <a href="Logout/logout.html"><button class="buy-btn">Cerrar sesión</button></a>
+                `;
+            } else {
+                // Usuario no logueado
+                userActions.innerHTML = `
+                    <a href="Login/index.html"><button class="buy-btn">Iniciar Sesión</button></a>
+                    <a href="NuevoUsuario/index.html"><button class="buy-btn">Registrarse</button></a>
+                `;
+            }
+
+            // Cargar productos
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const container = document.getElementById('products-container');
+            container.innerHTML = productos.map(producto => `
+                <div class="product">
+                    <img src="${producto.imagen}" alt="${producto.nombre}" onerror="this.src='https://via.placeholder.com/300'">
+                    <h3>${producto.nombre}</h3>
+                    <p>$${producto.precio} USD</p>
+                    <a href="Producto/index.html?id=${producto.id}">
+                        <button class="buy-btn">Comprar</button>
+                    </a>
+                </div>
+            `).join('');
+        });
+    </script>
+</body>
+</html>

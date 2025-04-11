@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Método de Pago</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .payment-container {
+            background-color: #222;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+        .product-info {
+            background-color: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .product-info h3 {
+            color: cyan;
+            margin-top: 0;
+        }
+        .product-info .price {
+            color: orange;
+            font-size: 20px;
+        }
+        .payment-method {
+            background-color: #333;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .payment-method:hover {
+            background-color: #444;
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+<body>
+    <div class="payment-container">
+        <h2>Selecciona método de pago</h2>
+        
+        <div id="product-info" class="product-info">
+            <!-- Info del producto se cargará aquí -->
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('Visa')">
+            <h3>Tarjeta de Crédito/Débito</h3>
+            <p>Visa, Mastercard, American Express</p>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('PayPal')">
+            <h3>PayPal</h3>
+            <p>Pago seguro con tu cuenta PayPal</p>
+        </div>
+        
+        <div class="payment-method" onclick="selectPayment('Transferencia')">
+            <h3>Transferencia Bancaria</h3>
+            <p>Depósito directo a nuestra cuenta</p>
+        </div>
+    </div>
+
+    <script>
+        // Cargar información del producto
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('productId'));
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const producto = productos.find(p => p.id === productId);
+            
+            if (producto) {
+                document.getElementById('product-info').innerHTML = `
+                    <h3>${producto.nombre}</h3>
+                    <p>${producto.descripcion}</p>
+                    <p class="price">$${producto.precio} USD</p>
+                `;
+                
+                // Guardar producto seleccionado para el recibo
+                localStorage.setItem('productoSeleccionado', JSON.stringify(producto));
+            } else {
+                window.location.href = '../index.html';
+            }
+        });
+
+        function selectPayment(metodo) {
+            const producto = JSON.parse(localStorage.getItem('productoSeleccionado'));
+            if (producto) {
+                localStorage.setItem('metodoPago', metodo);
+                window.location.href = '../Recibo/index.html';
+            }
+        }
+    </script>
+</body>
+</html>

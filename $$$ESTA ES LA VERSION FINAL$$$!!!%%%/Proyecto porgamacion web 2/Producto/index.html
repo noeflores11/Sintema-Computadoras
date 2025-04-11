@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Producto</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .product-container {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .product-container img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .product-container h2 {
+            color: cyan;
+            margin-top: 0;
+        }
+        .price {
+            color: orange;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-container" id="product-detail">
+        <!-- Contenido dinámico -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const params = new URLSearchParams(window.location.search);
+            const productId = parseInt(params.get('id'));
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const producto = productos.find(p => p.id === productId);
+            
+            if (producto) {
+                document.getElementById('product-detail').innerHTML = `
+                    <img src="${producto.imagen}" alt="${producto.nombre}">
+                    <h2>${producto.nombre}</h2>
+                    <p>${producto.descripcion}</p>
+                    <p class="price">$${producto.precio} USD</p>
+                    <p>Disponibles: ${producto.stock} unidades</p>
+                    <a href="../Opcion de pago/index.html?productId=${producto.id}">
+                        <button class="buy-btn">Comprar ahora</button>
+                    </a>
+                    <a href="../index.html">
+                        <button class="buy-btn" style="background-color: #333;">Volver a la tienda</button>
+                    </a>
+                `;
+            } else {
+                document.getElementById('product-detail').innerHTML = `
+                    <h2>Producto no encontrado</h2>
+                    <a href="../index.html">
+                        <button class="buy-btn">Volver a la tienda</button>
+                    </a>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
