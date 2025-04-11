@@ -97,5 +97,11 @@
             }
         });
     </script>
+    <script>
+    // Si llegó aquí directamente, redirige al sistema de hash
+    if (!window.location.hash) {
+        window.location.href = '../index.html#admin';
+    }
+</script>
 </body>
 </html>
